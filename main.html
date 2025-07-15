@@ -1,0 +1,1400 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Virtual Cat Care</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      /* Custom animations */
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+
+      .cat-bounce {
+        animation: bounce 2s infinite;
+      }
+
+      .item-pulse {
+        animation: pulse 1.5s infinite;
+      }
+
+      /* Progress bar styling */
+      .progress-container {
+        height: 1rem;
+        background-color: #e5e7eb;
+        border-radius: 0.5rem;
+        overflow: hidden;
+      }
+
+      .progress-bar {
+        height: 100%;
+        border-radius: 0.5rem;
+        transition: width 0.5s ease;
+      }
+
+      /* Custom scrollbar */
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+      }
+
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+      }
+
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+
+      /* Modal transition */
+      .modal {
+        transition:
+          opacity 0.3s ease,
+          transform 0.3s ease;
+      }
+
+      .modal-enter {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+
+      .modal-enter-active {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .modal-exit {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .modal-exit-active {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 font-sans">
+    <!-- Auth Modal -->
+    <div
+      id="authModal"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden"
+    >
+      <div class="bg-white rounded-lg p-6 w-full max-w-md modal">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-2xl font-bold" id="authModalTitle">Login</h2>
+          <button id="closeAuthModal" class="text-gray-500 hover:text-gray-700">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div id="authForms">
+          <!-- Login Form -->
+          <form id="loginForm" class="space-y-4">
+            <div>
+              <label
+                for="loginUsername"
+                class="block text-sm font-medium text-gray-700"
+                >Username</label
+              >
+              <input
+                type="text"
+                id="loginUsername"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border"
+              />
+            </div>
+            <div>
+              <label
+                for="loginPassword"
+                class="block text-sm font-medium text-gray-700"
+                >Password</label
+              >
+              <input
+                type="password"
+                id="loginPassword"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border"
+              />
+            </div>
+            <button
+              type="submit"
+              class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+              Login
+            </button>
+          </form>
+
+          <!-- Register Form (hidden by default) -->
+          <form id="registerForm" class="space-y-4 hidden">
+            <div>
+              <label
+                for="registerUsername"
+                class="block text-sm font-medium text-gray-700"
+                >Username</label
+              >
+              <input
+                type="text"
+                id="registerUsername"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border"
+              />
+            </div>
+            <div>
+              <label
+                for="registerEmail"
+                class="block text-sm font-medium text-gray-700"
+                >Email</label
+              >
+              <input
+                type="email"
+                id="registerEmail"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border"
+              />
+            </div>
+            <div>
+              <label
+                for="registerPassword"
+                class="block text-sm font-medium text-gray-700"
+                >Password</label
+              >
+              <input
+                type="password"
+                id="registerPassword"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border"
+              />
+            </div>
+            <div>
+              <label
+                for="registerConfirmPassword"
+                class="block text-sm font-medium text-gray-700"
+                >Confirm Password</label
+              >
+              <input
+                type="password"
+                id="registerConfirmPassword"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border"
+              />
+            </div>
+            <button
+              type="submit"
+              class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+              Register
+            </button>
+          </form>
+        </div>
+        <div class="mt-4 text-center">
+          <button
+            id="toggleAuthForm"
+            class="text-indigo-600 hover:text-indigo-800 text-sm"
+          >
+            Don't have an account? Register here
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game Modal -->
+    <div
+      id="gameModal"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden"
+    >
+      <div class="bg-white rounded-lg p-6 w-full max-w-md modal">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-2xl font-bold">Play Mini Game</h2>
+          <button id="closeGameModal" class="text-gray-500 hover:text-gray-700">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div id="gameContent" class="text-center">
+          <h3 class="text-xl font-semibold mb-2">Catch the Mouse!</h3>
+          <div
+            class="relative h-40 bg-gray-200 rounded-lg mb-4 overflow-hidden"
+          >
+            <div
+              id="mouse"
+              class="absolute w-10 h-10 bg-gray-700 rounded-full cursor-pointer"
+            ></div>
+          </div>
+          <div class="flex justify-between items-center mb-4">
+            <span>Time: <span id="gameTime">30</span>s</span>
+            <span>Score: <span id="gameScore">0</span></span>
+          </div>
+          <button
+            id="startGame"
+            class="bg-green-600 text-white py-2 px-6 rounded-md hover:bg-green-700"
+          >
+            Start Game
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="min-h-screen flex flex-col">
+      <!-- Header -->
+      <header class="bg-indigo-600 text-white shadow-md">
+        <div
+          class="container mx-auto px-4 py-3 flex justify-between items-center"
+        >
+          <div class="flex items-center space-x-2">
+            <i class="fas fa-cat text-2xl"></i>
+            <h1 class="text-xl font-bold">Virtual Cat Care</h1>
+          </div>
+          <div id="userSection" class="hidden">
+            <div class="flex items-center space-x-4">
+              <div
+                class="flex items-center space-x-2 bg-indigo-700 px-3 py-1 rounded-full"
+              >
+                <i class="fas fa-coins text-yellow-400"></i>
+                <span id="userCoins">0</span>
+              </div>
+              <div class="relative group">
+                <button
+                  id="userMenuButton"
+                  class="flex items-center space-x-1 focus:outline-none"
+                >
+                  <span id="usernameDisplay">Guest</span>
+                  <i class="fas fa-chevron-down text-xs"></i>
+                </button>
+                <div
+                  id="userMenu"
+                  class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 hidden group-hover:block hover:block"
+                >
+                  <a
+                    href="#"
+                    class="block px-4 py-2 text-gray-800 hover:bg-indigo-100"
+                    >Profile</a
+                  >
+                  <a
+                    href="#"
+                    id="logoutButton"
+                    class="block px-4 py-2 text-gray-800 hover:bg-indigo-100"
+                    >Logout</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="guestSection">
+            <button
+              id="loginButton"
+              class="bg-white text-indigo-600 px-4 py-1 rounded-md hover:bg-gray-100"
+            >
+              Login / Register
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="flex-grow container mx-auto px-4 py-6">
+        <!-- Dashboard -->
+        <div id="dashboard" class="hidden">
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Cat Status -->
+            <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
+              <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">Your Cat</h2>
+                <div class="flex space-x-2">
+                  <button
+                    id="playGameButton"
+                    class="bg-blue-500 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-600"
+                  >
+                    <i class="fas fa-gamepad mr-1"></i> Play Game
+                  </button>
+                  <button
+                    id="shopButton"
+                    class="bg-green-500 text-white px-3 py-1 rounded-md text-sm hover:bg-green-600"
+                  >
+                    <i class="fas fa-shopping-cart mr-1"></i> Shop
+                  </button>
+                </div>
+              </div>
+
+              <div
+                class="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6"
+              >
+                <div class="relative">
+                  <div
+                    id="catImage"
+                    class="w-40 h-40 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden cat-bounce"
+                  >
+                    <img
+                      src="https://placekitten.com/200/200"
+                      alt="Cat"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div
+                    id="catMood"
+                    class="absolute -top-2 -right-2 bg-yellow-400 rounded-full w-10 h-10 flex items-center justify-center"
+                  >
+                    <i class="fas fa-smile text-white"></i>
+                  </div>
+                </div>
+
+                <div class="flex-grow space-y-3">
+                  <div>
+                    <h3 id="catName" class="text-lg font-semibold">Whiskers</h3>
+                    <p id="catStatus" class="text-gray-600">
+                      Happy and playful!
+                    </p>
+                  </div>
+
+                  <div class="space-y-2">
+                    <div>
+                      <div class="flex justify-between text-sm mb-1">
+                        <span>Hunger</span>
+                        <span id="hungerValue">50%</span>
+                      </div>
+                      <div class="progress-container">
+                        <div
+                          id="hungerBar"
+                          class="progress-bar bg-red-500"
+                          style="width: 50%"
+                        ></div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div class="flex justify-between text-sm mb-1">
+                        <span>Happiness</span>
+                        <span id="happinessValue">70%</span>
+                      </div>
+                      <div class="progress-container">
+                        <div
+                          id="happinessBar"
+                          class="progress-bar bg-yellow-500"
+                          style="width: 70%"
+                        ></div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div class="flex justify-between text-sm mb-1">
+                        <span>Energy</span>
+                        <span id="energyValue">60%</span>
+                      </div>
+                      <div class="progress-container">
+                        <div
+                          id="energyBar"
+                          class="progress-bar bg-blue-500"
+                          style="width: 60%"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3">
+                <button
+                  class="cat-action bg-indigo-100 text-indigo-700 py-2 rounded-md hover:bg-indigo-200 flex flex-col items-center"
+                  data-action="feed"
+                >
+                  <i class="fas fa-utensils mb-1"></i>
+                  <span>Feed</span>
+                </button>
+                <button
+                  class="cat-action bg-indigo-100 text-indigo-700 py-2 rounded-md hover:bg-indigo-200 flex flex-col items-center"
+                  data-action="play"
+                >
+                  <i class="fas fa-baseball-ball mb-1"></i>
+                  <span>Play</span>
+                </button>
+                <button
+                  class="cat-action bg-indigo-100 text-indigo-700 py-2 rounded-md hover:bg-indigo-200 flex flex-col items-center"
+                  data-action="pet"
+                >
+                  <i class="fas fa-hand-holding-heart mb-1"></i>
+                  <span>Pet</span>
+                </button>
+                <button
+                  class="cat-action bg-indigo-100 text-indigo-700 py-2 rounded-md hover:bg-indigo-200 flex flex-col items-center"
+                  data-action="sleep"
+                >
+                  <i class="fas fa-bed mb-1"></i>
+                  <span>Sleep</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Inventory and Activities -->
+            <div class="space-y-6">
+              <!-- Inventory -->
+              <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-bold mb-4">Inventory</h2>
+                <div id="inventoryItems" class="grid grid-cols-2 gap-3">
+                  <!-- Items will be added here dynamically -->
+                  <div
+                    class="inventory-item bg-gray-100 p-3 rounded-md flex items-center space-x-2 item-pulse"
+                    data-item="food"
+                  >
+                    <i class="fas fa-fish text-blue-500"></i>
+                    <span
+                      >Cat Food
+                      <span class="text-sm text-gray-500">(5)</span></span
+                    >
+                  </div>
+                  <div
+                    class="inventory-item bg-gray-100 p-3 rounded-md flex items-center space-x-2"
+                    data-item="toy"
+                  >
+                    <i class="fas fa-paw text-red-500"></i>
+                    <span
+                      >Ball <span class="text-sm text-gray-500">(2)</span></span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <!-- Activity Log -->
+              <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-bold mb-4">Activity Log</h2>
+                <div
+                  id="activityLog"
+                  class="h-48 overflow-y-auto custom-scrollbar space-y-2"
+                >
+                  <!-- Log entries will be added here dynamically -->
+                  <div class="text-sm p-2 bg-gray-50 rounded">
+                    <span class="text-gray-500">[10:30 AM]</span> You fed
+                    Whiskers with Cat Food
+                  </div>
+                  <div class="text-sm p-2 bg-gray-50 rounded">
+                    <span class="text-gray-500">[10:15 AM]</span> You played
+                    with Whiskers using Ball
+                  </div>
+                  <div class="text-sm p-2 bg-gray-50 rounded">
+                    <span class="text-gray-500">[9:45 AM]</span> Whiskers went
+                    to sleep
+                  </div>
+                  <div class="text-sm p-2 bg-gray-50 rounded">
+                    <span class="text-gray-500">[9:30 AM]</span> You petted
+                    Whiskers
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Welcome Screen (shown when not logged in) -->
+        <div
+          id="welcomeScreen"
+          class="flex flex-col items-center justify-center py-12 text-center"
+        >
+          <div class="max-w-2xl mx-auto">
+            <i class="fas fa-cat text-6xl text-indigo-500 mb-6"></i>
+            <h1 class="text-4xl font-bold text-gray-800 mb-4">
+              Welcome to Virtual Cat Care
+            </h1>
+            <p class="text-lg text-gray-600 mb-8">
+              Adopt and take care of your virtual cat! Feed, play, and watch
+              your cat grow. Earn coins by playing mini games and buy items to
+              keep your cat happy.
+            </p>
+            <button
+              id="welcomeLoginButton"
+              class="bg-indigo-600 text-white px-6 py-3 rounded-md text-lg hover:bg-indigo-700"
+            >
+              Login or Register to Start
+            </button>
+          </div>
+        </div>
+
+        <!-- Shop (hidden by default) -->
+        <div id="shop" class="hidden bg-white rounded-lg shadow-md p-6">
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold">Shop</h2>
+            <button id="closeShop" class="text-gray-500 hover:text-gray-700">
+              <i class="fas fa-times"></i> Close
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Food Items -->
+            <div class="border rounded-lg p-4">
+              <h3
+                class="font-semibold text-lg mb-3 border-b pb-2 flex items-center"
+              >
+                <i class="fas fa-utensils text-yellow-500 mr-2"></i> Food
+              </h3>
+              <div class="space-y-3">
+                <div
+                  class="shop-item flex justify-between items-center p-2 hover:bg-gray-50 rounded"
+                  data-item="food"
+                  data-price="10"
+                >
+                  <div class="flex items-center space-x-2">
+                    <i class="fas fa-fish text-blue-500"></i>
+                    <span>Cat Food</span>
+                  </div>
+                  <button
+                    class="buy-item bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600"
+                  >
+                    Buy (10 <i class="fas fa-coins text-yellow-400"></i>)
+                  </button>
+                </div>
+                <div
+                  class="shop-item flex justify-between items-center p-2 hover:bg-gray-50 rounded"
+                  data-item="premium-food"
+                  data-price="25"
+                >
+                  <div class="flex items-center space-x-2">
+                    <i class="fas fa-drumstick-bite text-red-500"></i>
+                    <span>Premium Food</span>
+                  </div>
+                  <button
+                    class="buy-item bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600"
+                  >
+                    Buy (25 <i class="fas fa-coins text-yellow-400"></i>)
+                  </button>
+                </div>
+                <div
+                  class="shop-item flex justify-between items-center p-2 hover:bg-gray-50 rounded"
+                  data-item="treat"
+                  data-price="15"
+                >
+                  <div class="flex items-center space-x-2">
+                    <i class="fas fa-cookie text-amber-500"></i>
+                    <span>Cat Treat</span>
+                  </div>
+                  <button
+                    class="buy-item bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600"
+                  >
+                    Buy (15 <i class="fas fa-coins text-yellow-400"></i>)
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Toys -->
+            <div class="border rounded-lg p-4">
+              <h3
+                class="font-semibold text-lg mb-3 border-b pb-2 flex items-center"
+              >
+                <i class="fas fa-gamepad text-red-500 mr-2"></i> Toys
+              </h3>
+              <div class="space-y-3">
+                <div
+                  class="shop-item flex justify-between items-center p-2 hover:bg-gray-50 rounded"
+                  data-item="toy"
+                  data-price="20"
+                >
+                  <div class="flex items-center space-x-2">
+                    <i class="fas fa-paw text-purple-500"></i>
+                    <span>Ball</span>
+                  </div>
+                  <button
+                    class="buy-item bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600"
+                  >
+                    Buy (20 <i class="fas fa-coins text-yellow-400"></i>)
+                  </button>
+                </div>
+                <div
+                  class="shop-item flex justify-between items-center p-2 hover:bg-gray-50 rounded"
+                  data-item="laser"
+                  data-price="30"
+                >
+                  <div class="flex items-center space-x-2">
+                    <i class="fas fa-lightbulb text-yellow-500"></i>
+                    <span>Laser Pointer</span>
+                  </div>
+                  <button
+                    class="buy-item bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600"
+                  >
+                    Buy (30 <i class="fas fa-coins text-yellow-400"></i>)
+                  </button>
+                </div>
+                <div
+                  class="shop-item flex justify-between items-center p-2 hover:bg-gray-50 rounded"
+                  data-item="scratch"
+                  data-price="40"
+                >
+                  <div class="flex items-center space-x-2">
+                    <i class="fas fa-cut text-orange-500"></i>
+                    <span>Scratch Post</span>
+                  </div>
+                  <button
+                    class="buy-item bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600"
+                  >
+                    Buy (40 <i class="fas fa-coins text-yellow-400"></i>)
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Accessories -->
+            <div class="border rounded-lg p-4">
+              <h3
+                class="font-semibold text-lg mb-3 border-b pb-2 flex items-center"
+              >
+                <i class="fas fa-tshirt text-blue-500 mr-2"></i> Accessories
+              </h3>
+              <div class="space-y-3">
+                <div
+                  class="shop-item flex justify-between items-center p-2 hover:bg-gray-50 rounded"
+                  data-item="collar"
+                  data-price="50"
+                >
+                  <div class="flex items-center space-x-2">
+                    <i class="fas fa-ring text-pink-500"></i>
+                    <span>Fancy Collar</span>
+                  </div>
+                  <button
+                    class="buy-item bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600"
+                  >
+                    Buy (50 <i class="fas fa-coins text-yellow-400"></i>)
+                  </button>
+                </div>
+                <div
+                  class="shop-item flex justify-between items-center p-2 hover:bg-gray-50 rounded"
+                  data-item="hat"
+                  data-price="35"
+                >
+                  <div class="flex items-center space-x-2">
+                    <i class="fas fa-hat-cowboy text-brown-500"></i>
+                    <span>Cat Hat</span>
+                  </div>
+                  <button
+                    class="buy-item bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600"
+                  >
+                    Buy (35 <i class="fas fa-coins text-yellow-400"></i>)
+                  </button>
+                </div>
+                <div
+                  class="shop-item flex justify-between items-center p-2 hover:bg-gray-50 rounded"
+                  data-item="bed"
+                  data-price="75"
+                >
+                  <div class="flex items-center space-x-2">
+                    <i class="fas fa-bed text-teal-500"></i>
+                    <span>Comfy Bed</span>
+                  </div>
+                  <button
+                    class="buy-item bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600"
+                  >
+                    Buy (75 <i class="fas fa-coins text-yellow-400"></i>)
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Footer -->
+      <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+          <p>&copy; 2023 Virtual Cat Care. All rights reserved.</p>
+          <div class="flex justify-center space-x-4 mt-2">
+            <a href="#" class="hover:text-indigo-300">Terms</a>
+            <a href="#" class="hover:text-indigo-300">Privacy</a>
+            <a href="#" class="hover:text-indigo-300">Contact</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      // Game State
+      const gameState = {
+        loggedIn: false,
+        currentUser: null,
+        cat: {
+          name: 'Whiskers',
+          hunger: 50,
+          happiness: 70,
+          energy: 60,
+          mood: 'happy',
+        },
+        inventory: {
+          food: 5,
+          toy: 2,
+        },
+        coins: 100,
+        activityLog: [
+          'You fed Whiskers with Cat Food',
+          'You played with Whiskers using Ball',
+          'Whiskers went to sleep',
+          'You petted Whiskers',
+        ],
+        gameHistory: [],
+      };
+
+      // Shop Items
+      const shopItems = {
+        food: {
+          name: 'Cat Food',
+          icon: 'fa-fish',
+          price: 10,
+          effect: { hunger: -20, happiness: 5 },
+        },
+        'premium-food': {
+          name: 'Premium Food',
+          icon: 'fa-drumstick-bite',
+          price: 25,
+          effect: { hunger: -30, happiness: 10 },
+        },
+        treat: {
+          name: 'Cat Treat',
+          icon: 'fa-cookie',
+          price: 15,
+          effect: { hunger: -10, happiness: 15 },
+        },
+        toy: {
+          name: 'Ball',
+          icon: 'fa-paw',
+          price: 20,
+          effect: { happiness: 20, energy: -15 },
+        },
+        laser: {
+          name: 'Laser Pointer',
+          icon: 'fa-lightbulb',
+          price: 30,
+          effect: { happiness: 30, energy: -20 },
+        },
+        scratch: {
+          name: 'Scratch Post',
+          icon: 'fa-cut',
+          price: 40,
+          effect: { happiness: 25, energy: -10 },
+        },
+        collar: {
+          name: 'Fancy Collar',
+          icon: 'fa-ring',
+          price: 50,
+          effect: { happiness: 15 },
+        },
+        hat: {
+          name: 'Cat Hat',
+          icon: 'fa-hat-cowboy',
+          price: 35,
+          effect: { happiness: 10 },
+        },
+        bed: {
+          name: 'Comfy Bed',
+          icon: 'fa-bed',
+          price: 75,
+          effect: { energy: 30 },
+        },
+      };
+
+      // DOM Elements
+      const authModal = document.getElementById('authModal');
+      const authModalTitle = document.getElementById('authModalTitle');
+      const loginForm = document.getElementById('loginForm');
+      const registerForm = document.getElementById('registerForm');
+      const toggleAuthForm = document.getElementById('toggleAuthForm');
+      const closeAuthModal = document.getElementById('closeAuthModal');
+      const loginButton = document.getElementById('loginButton');
+      const welcomeLoginButton = document.getElementById('welcomeLoginButton');
+      const userSection = document.getElementById('userSection');
+      const guestSection = document.getElementById('guestSection');
+      const usernameDisplay = document.getElementById('usernameDisplay');
+      const userCoins = document.getElementById('userCoins');
+      const logoutButton = document.getElementById('logoutButton');
+      const dashboard = document.getElementById('dashboard');
+      const welcomeScreen = document.getElementById('welcomeScreen');
+      const shop = document.getElementById('shop');
+      const shopButton = document.getElementById('shopButton');
+      const closeShop = document.getElementById('closeShop');
+      const playGameButton = document.getElementById('playGameButton');
+      const gameModal = document.getElementById('gameModal');
+      const closeGameModal = document.getElementById('closeGameModal');
+      const startGame = document.getElementById('startGame');
+      const mouse = document.getElementById('mouse');
+      const gameTime = document.getElementById('gameTime');
+      const gameScore = document.getElementById('gameScore');
+
+      // Cat elements
+      const catName = document.getElementById('catName');
+      const catStatus = document.getElementById('catStatus');
+      const catImage = document.getElementById('catImage');
+      const catMood = document.getElementById('catMood');
+      const hungerBar = document.getElementById('hungerBar');
+      const hungerValue = document.getElementById('hungerValue');
+      const happinessBar = document.getElementById('happinessBar');
+      const happinessValue = document.getElementById('happinessValue');
+      const energyBar = document.getElementById('energyBar');
+      const energyValue = document.getElementById('energyValue');
+      const inventoryItems = document.getElementById('inventoryItems');
+      const activityLog = document.getElementById('activityLog');
+
+      // Game variables
+      let gameInterval;
+      let gameTimer;
+      let score = 0;
+      let timeLeft = 30;
+      let gameActive = false;
+
+      // Initialize the app
+      function init() {
+        updateUI();
+        setupEventListeners();
+
+        // Simulate cat stats degradation over time
+        setInterval(() => {
+          if (gameState.loggedIn) {
+            // Gradually increase hunger and decrease happiness/energy
+            gameState.cat.hunger = Math.min(100, gameState.cat.hunger + 1);
+            gameState.cat.happiness = Math.max(
+              0,
+              gameState.cat.happiness - 0.5,
+            );
+            gameState.cat.energy = Math.max(0, gameState.cat.energy - 0.5);
+
+            // Update mood based on stats
+            updateCatMood();
+            updateUI();
+          }
+        }, 10000); // Every 10 seconds
+      }
+
+      // Set up event listeners
+      function setupEventListeners() {
+        // Auth modal
+        loginButton.addEventListener('click', () => showAuthModal('login'));
+        welcomeLoginButton.addEventListener('click', () =>
+          showAuthModal('login'),
+        );
+        closeAuthModal.addEventListener('click', hideAuthModal);
+        toggleAuthForm.addEventListener('click', toggleAuthForms);
+
+        // Login/register forms
+        loginForm.addEventListener('submit', handleLogin);
+        registerForm.addEventListener('submit', handleRegister);
+
+        // User actions
+        logoutButton.addEventListener('click', handleLogout);
+
+        // Shop
+        shopButton.addEventListener('click', showShop);
+        closeShop.addEventListener('click', hideShop);
+
+        // Cat actions
+        document.querySelectorAll('.cat-action').forEach((button) => {
+          button.addEventListener('click', function () {
+            const action = this.getAttribute('data-action');
+            handleCatAction(action);
+          });
+        });
+
+        // Inventory items
+        document.querySelectorAll('.inventory-item').forEach((item) => {
+          item.addEventListener('click', function () {
+            const itemType = this.getAttribute('data-item');
+            useInventoryItem(itemType);
+          });
+        });
+
+        // Game
+        playGameButton.addEventListener('click', showGameModal);
+        closeGameModal.addEventListener('click', hideGameModal);
+        startGame.addEventListener('click', startMiniGame);
+        mouse.addEventListener('click', catchMouse);
+      }
+
+      // Show auth modal
+      function showAuthModal(formType) {
+        authModal.classList.remove('hidden');
+        if (formType === 'login') {
+          loginForm.classList.remove('hidden');
+          registerForm.classList.add('hidden');
+          authModalTitle.textContent = 'Login';
+          toggleAuthForm.textContent = "Don't have an account? Register here";
+        } else {
+          loginForm.classList.add('hidden');
+          registerForm.classList.remove('hidden');
+          authModalTitle.textContent = 'Register';
+          toggleAuthForm.textContent = 'Already have an account? Login here';
+        }
+      }
+
+      // Hide auth modal
+      function hideAuthModal() {
+        authModal.classList.add('hidden');
+      }
+
+      // Toggle between login and register forms
+      function toggleAuthForms() {
+        if (loginForm.classList.contains('hidden')) {
+          loginForm.classList.remove('hidden');
+          registerForm.classList.add('hidden');
+          authModalTitle.textContent = 'Login';
+          toggleAuthForm.textContent = "Don't have an account? Register here";
+        } else {
+          loginForm.classList.add('hidden');
+          registerForm.classList.remove('hidden');
+          authModalTitle.textContent = 'Register';
+          toggleAuthForm.textContent = 'Already have an account? Login here';
+        }
+      }
+
+      // Handle login
+      function handleLogin(e) {
+        e.preventDefault();
+        const username = document.getElementById('loginUsername').value;
+        const password = document.getElementById('loginPassword').value;
+
+        // Simple validation
+        if (!username || !password) {
+          alert('Please enter both username and password');
+          return;
+        }
+
+        // Simulate login
+        gameState.loggedIn = true;
+        gameState.currentUser = username;
+        hideAuthModal();
+        updateUI();
+
+        // Reset form
+        loginForm.reset();
+      }
+
+      // Handle register
+      function handleRegister(e) {
+        e.preventDefault();
+        const username = document.getElementById('registerUsername').value;
+        const email = document.getElementById('registerEmail').value;
+        const password = document.getElementById('registerPassword').value;
+        const confirmPassword = document.getElementById(
+          'registerConfirmPassword',
+        ).value;
+
+        // Simple validation
+        if (!username || !email || !password || !confirmPassword) {
+          alert('Please fill in all fields');
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          alert('Passwords do not match');
+          return;
+        }
+
+        // Simulate registration
+        gameState.loggedIn = true;
+        gameState.currentUser = username;
+        hideAuthModal();
+        updateUI();
+
+        // Reset form
+        registerForm.reset();
+      }
+
+      // Handle logout
+      function handleLogout() {
+        gameState.loggedIn = false;
+        gameState.currentUser = null;
+        updateUI();
+      }
+
+      // Update UI based on game state
+      function updateUI() {
+        if (gameState.loggedIn) {
+          // Show user section and dashboard
+          userSection.classList.remove('hidden');
+          guestSection.classList.add('hidden');
+          dashboard.classList.remove('hidden');
+          welcomeScreen.classList.add('hidden');
+
+          // Update user info
+          usernameDisplay.textContent = gameState.currentUser;
+          userCoins.textContent = gameState.coins;
+
+          // Update cat info
+          catName.textContent = gameState.cat.name;
+          hungerBar.style.width = `${gameState.cat.hunger}%`;
+          hungerValue.textContent = `${gameState.cat.hunger}%`;
+          happinessBar.style.width = `${gameState.cat.happiness}%`;
+          happinessValue.textContent = `${gameState.cat.happiness}%`;
+          energyBar.style.width = `${gameState.cat.energy}%`;
+          energyValue.textContent = `${gameState.cat.energy}%`;
+
+          // Update cat mood
+          updateCatMood();
+
+          // Update inventory
+          updateInventory();
+
+          // Update activity log
+          updateActivityLog();
+        } else {
+          // Show guest section and welcome screen
+          userSection.classList.add('hidden');
+          guestSection.classList.remove('hidden');
+          dashboard.classList.add('hidden');
+          welcomeScreen.classList.remove('hidden');
+          shop.classList.add('hidden');
+        }
+      }
+
+      // Update cat mood based on stats
+      function updateCatMood() {
+        const cat = gameState.cat;
+        let mood, status, moodIcon;
+
+        if (cat.hunger > 80) {
+          mood = 'hungry';
+          status = 'Very hungry and cranky!';
+          moodIcon = 'fa-frown';
+        } else if (cat.happiness < 30) {
+          mood = 'sad';
+          status = 'Feeling sad and lonely...';
+          moodIcon = 'fa-sad-tear';
+        } else if (cat.energy < 20) {
+          mood = 'tired';
+          status = 'Exhausted and needs rest';
+          moodIcon = 'fa-tired';
+        } else if (cat.happiness > 70 && cat.hunger < 30 && cat.energy > 50) {
+          mood = 'happy';
+          status = 'Happy and playful!';
+          moodIcon = 'fa-smile-beam';
+        } else {
+          mood = 'content';
+          status = 'Content and relaxed';
+          moodIcon = 'fa-smile';
+        }
+
+        cat.mood = mood;
+        catStatus.textContent = status;
+        catMood.innerHTML = `<i class="fas ${moodIcon} text-white"></i>`;
+
+        // Change cat image animation based on mood
+        catImage.className = `w-40 h-40 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden ${mood === 'happy' ? 'cat-bounce' : ''}`;
+      }
+
+      // Update inventory display
+      function updateInventory() {
+        inventoryItems.innerHTML = '';
+
+        for (const [item, quantity] of Object.entries(gameState.inventory)) {
+          if (quantity > 0) {
+            const itemInfo = shopItems[item] || {
+              name: item,
+              icon: 'fa-question',
+            };
+            const itemElement = document.createElement('div');
+            itemElement.className = `inventory-item bg-gray-100 p-3 rounded-md flex items-center space-x-2 cursor-pointer ${quantity > 0 ? 'hover:bg-gray-200' : 'opacity-50'}`;
+            itemElement.setAttribute('data-item', item);
+            itemElement.innerHTML = `
+                        <i class="fas ${itemInfo.icon} text-blue-500"></i>
+                        <span>${itemInfo.name} <span class="text-sm text-gray-500">(${quantity})</span></span>
+                    `;
+            itemElement.addEventListener('click', () => useInventoryItem(item));
+            inventoryItems.appendChild(itemElement);
+          }
+        }
+      }
+
+      // Update activity log
+      function updateActivityLog() {
+        activityLog.innerHTML = '';
+
+        gameState.activityLog.slice(0, 10).forEach((log) => {
+          const logElement = document.createElement('div');
+          logElement.className = 'text-sm p-2 bg-gray-50 rounded';
+          logElement.textContent = log;
+          activityLog.appendChild(logElement);
+        });
+      }
+
+      // Handle cat actions (feed, play, pet, sleep)
+      function handleCatAction(action) {
+        let message = '';
+
+        switch (action) {
+          case 'feed':
+            if (gameState.inventory.food > 0) {
+              gameState.cat.hunger = Math.max(0, gameState.cat.hunger - 15);
+              gameState.inventory.food--;
+              message = `You fed ${gameState.cat.name} with Cat Food`;
+            } else {
+              message = `You don't have any food to feed ${gameState.cat.name}!`;
+            }
+            break;
+          case 'play':
+            if (gameState.inventory.toy > 0) {
+              gameState.cat.happiness = Math.min(
+                100,
+                gameState.cat.happiness + 15,
+              );
+              gameState.cat.energy = Math.max(0, gameState.cat.energy - 10);
+              gameState.inventory.toy--;
+              message = `You played with ${gameState.cat.name} using Ball`;
+            } else {
+              message = `You don't have any toys to play with ${gameState.cat.name}!`;
+            }
+            break;
+          case 'pet':
+            gameState.cat.happiness = Math.min(
+              100,
+              gameState.cat.happiness + 5,
+            );
+            message = `You petted ${gameState.cat.name}`;
+            break;
+          case 'sleep':
+            gameState.cat.energy = Math.min(100, gameState.cat.energy + 30);
+            message = `${gameState.cat.name} took a nap`;
+            break;
+        }
+
+        // Add to activity log
+        const timestamp = new Date().toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        });
+        gameState.activityLog.unshift(`[${timestamp}] ${message}`);
+
+        // Update UI
+        updateUI();
+      }
+
+      // Use inventory item
+      function useInventoryItem(itemType) {
+        if (gameState.inventory[itemType] > 0) {
+          const item = shopItems[itemType];
+
+          // Apply effects
+          if (item.effect.hunger) {
+            gameState.cat.hunger = Math.max(
+              0,
+              gameState.cat.hunger + item.effect.hunger,
+            );
+          }
+          if (item.effect.happiness) {
+            gameState.cat.happiness = Math.min(
+              100,
+              gameState.cat.happiness + item.effect.happiness,
+            );
+          }
+          if (item.effect.energy) {
+            gameState.cat.energy = Math.min(
+              100,
+              gameState.cat.energy + item.effect.energy,
+            );
+          }
+
+          // Decrease quantity
+          gameState.inventory[itemType]--;
+
+          // Add to activity log
+          const timestamp = new Date().toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+          });
+          gameState.activityLog.unshift(
+            `[${timestamp}] You used ${item.name} on ${gameState.cat.name}`,
+          );
+
+          // Update UI
+          updateUI();
+        }
+      }
+
+      // Show shop
+      function showShop() {
+        shop.classList.remove('hidden');
+        dashboard.classList.add('hidden');
+
+        // Set up shop item event listeners
+        document.querySelectorAll('.buy-item').forEach((button) => {
+          button.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const itemElement = this.closest('.shop-item');
+            const itemType = itemElement.getAttribute('data-item');
+            const price = parseInt(itemElement.getAttribute('data-price'));
+
+            buyItem(itemType, price);
+          });
+        });
+      }
+
+      // Hide shop
+      function hideShop() {
+        shop.classList.add('hidden');
+        dashboard.classList.remove('hidden');
+      }
+
+      // Buy item from shop
+      function buyItem(itemType, price) {
+        if (gameState.coins >= price) {
+          gameState.coins -= price;
+
+          // Add to inventory
+          if (!gameState.inventory[itemType]) {
+            gameState.inventory[itemType] = 0;
+          }
+          gameState.inventory[itemType]++;
+
+          // Add to activity log
+          const itemName = shopItems[itemType].name;
+          const timestamp = new Date().toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+          });
+          gameState.activityLog.unshift(
+            `[${timestamp}] You bought ${itemName} for ${price} coins`,
+          );
+
+          // Update UI
+          updateUI();
+
+          // Show success message
+          alert(`You bought ${itemName} for ${price} coins!`);
+        } else {
+          alert("You don't have enough coins!");
+        }
+      }
+
+      // Show game modal
+      function showGameModal() {
+        gameModal.classList.remove('hidden');
+      }
+
+      // Hide game modal
+      function hideGameModal() {
+        gameModal.classList.add('hidden');
+        resetGame();
+      }
+
+      // Start mini game
+      function startMiniGame() {
+        gameActive = true;
+        score = 0;
+        timeLeft = 30;
+
+        gameScore.textContent = score;
+        gameTime.textContent = timeLeft;
+
+        startGame.textContent = 'Playing...';
+        startGame.disabled = true;
+
+        // Start timer
+        gameTimer = setInterval(() => {
+          timeLeft--;
+          gameTime.textContent = timeLeft;
+
+          if (timeLeft <= 0) {
+            endGame();
+          }
+        }, 1000);
+
+        // Move mouse randomly
+        gameInterval = setInterval(moveMouse, 1000);
+
+        // Initial mouse position
+        moveMouse();
+      }
+
+      // Move mouse to random position
+      function moveMouse() {
+        if (!gameActive) return;
+
+        const container = mouse.parentElement;
+        const maxX = container.clientWidth - mouse.clientWidth;
+        const maxY = container.clientHeight - mouse.clientHeight;
+
+        const randomX = Math.floor(Math.random() * maxX);
+        const randomY = Math.floor(Math.random() * maxY);
+
+        mouse.style.left = `${randomX}px`;
+        mouse.style.top = `${randomY}px`;
+      }
+
+      // Catch mouse (click handler)
+      function catchMouse() {
+        if (gameActive) {
+          score++;
+          gameScore.textContent = score;
+          moveMouse();
+        }
+      }
+
+      // End game
+      function endGame() {
+        gameActive = false;
+        clearInterval(gameTimer);
+        clearInterval(gameInterval);
+
+        startGame.textContent = 'Play Again';
+        startGame.disabled = false;
+
+        // Calculate coins earned (1 coin per 2 points)
+        const coinsEarned = Math.floor(score / 2);
+        gameState.coins += coinsEarned;
+
+        // Add to game history
+        gameState.gameHistory.push({
+          date: new Date(),
+          score: score,
+          coins: coinsEarned,
+        });
+
+        // Add to activity log
+        const timestamp = new Date().toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        });
+        gameState.activityLog.unshift(
+          `[${timestamp}] You played Catch the Mouse and earned ${coinsEarned} coins (Score: ${score})`,
+        );
+
+        // Update UI
+        updateUI();
+
+        // Show result
+        alert(
+          `Game Over! You scored ${score} points and earned ${coinsEarned} coins!`,
+        );
+      }
+
+      // Reset game state
+      function resetGame() {
+        gameActive = false;
+        clearInterval(gameTimer);
+        clearInterval(gameInterval);
+
+        score = 0;
+        timeLeft = 30;
+
+        gameScore.textContent = score;
+        gameTime.textContent = timeLeft;
+
+        startGame.textContent = 'Start Game';
+        startGame.disabled = false;
+      }
+
+      // Initialize the app
+      init();
+    </script>
+  </body>
+</html>
