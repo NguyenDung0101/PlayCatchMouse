@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -74,9 +74,7 @@
 
       /* Modal transition */
       .modal {
-        transition:
-          opacity 0.3s ease,
-          transform 0.3s ease;
+        transition: opacity 0.3s ease, transform 0.3s ease;
       }
 
       .modal-enter {
@@ -344,7 +342,7 @@
                     class="w-40 h-40 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden cat-bounce"
                   >
                     <img
-                      src="https://placekitten.com/200/200"
+                      src="./img/cat.jpg"
                       alt="Cat"
                       class="w-full h-full object-cover"
                     />
@@ -726,11 +724,11 @@
         loggedIn: false,
         currentUser: null,
         cat: {
-          name: 'Whiskers',
+          name: "Whiskers",
           hunger: 50,
           happiness: 70,
           energy: 60,
-          mood: 'happy',
+          mood: "happy",
         },
         inventory: {
           food: 5,
@@ -738,10 +736,10 @@
         },
         coins: 100,
         activityLog: [
-          'You fed Whiskers with Cat Food',
-          'You played with Whiskers using Ball',
-          'Whiskers went to sleep',
-          'You petted Whiskers',
+          "You fed Whiskers with Cat Food",
+          "You played with Whiskers using Ball",
+          "Whiskers went to sleep",
+          "You petted Whiskers",
         ],
         gameHistory: [],
       };
@@ -749,101 +747,101 @@
       // Shop Items
       const shopItems = {
         food: {
-          name: 'Cat Food',
-          icon: 'fa-fish',
+          name: "Cat Food",
+          icon: "fa-fish",
           price: 10,
           effect: { hunger: -20, happiness: 5 },
         },
-        'premium-food': {
-          name: 'Premium Food',
-          icon: 'fa-drumstick-bite',
+        "premium-food": {
+          name: "Premium Food",
+          icon: "fa-drumstick-bite",
           price: 25,
           effect: { hunger: -30, happiness: 10 },
         },
         treat: {
-          name: 'Cat Treat',
-          icon: 'fa-cookie',
+          name: "Cat Treat",
+          icon: "fa-cookie",
           price: 15,
           effect: { hunger: -10, happiness: 15 },
         },
         toy: {
-          name: 'Ball',
-          icon: 'fa-paw',
+          name: "Ball",
+          icon: "fa-paw",
           price: 20,
           effect: { happiness: 20, energy: -15 },
         },
         laser: {
-          name: 'Laser Pointer',
-          icon: 'fa-lightbulb',
+          name: "Laser Pointer",
+          icon: "fa-lightbulb",
           price: 30,
           effect: { happiness: 30, energy: -20 },
         },
         scratch: {
-          name: 'Scratch Post',
-          icon: 'fa-cut',
+          name: "Scratch Post",
+          icon: "fa-cut",
           price: 40,
           effect: { happiness: 25, energy: -10 },
         },
         collar: {
-          name: 'Fancy Collar',
-          icon: 'fa-ring',
+          name: "Fancy Collar",
+          icon: "fa-ring",
           price: 50,
           effect: { happiness: 15 },
         },
         hat: {
-          name: 'Cat Hat',
-          icon: 'fa-hat-cowboy',
+          name: "Cat Hat",
+          icon: "fa-hat-cowboy",
           price: 35,
           effect: { happiness: 10 },
         },
         bed: {
-          name: 'Comfy Bed',
-          icon: 'fa-bed',
+          name: "Comfy Bed",
+          icon: "fa-bed",
           price: 75,
           effect: { energy: 30 },
         },
       };
 
       // DOM Elements
-      const authModal = document.getElementById('authModal');
-      const authModalTitle = document.getElementById('authModalTitle');
-      const loginForm = document.getElementById('loginForm');
-      const registerForm = document.getElementById('registerForm');
-      const toggleAuthForm = document.getElementById('toggleAuthForm');
-      const closeAuthModal = document.getElementById('closeAuthModal');
-      const loginButton = document.getElementById('loginButton');
-      const welcomeLoginButton = document.getElementById('welcomeLoginButton');
-      const userSection = document.getElementById('userSection');
-      const guestSection = document.getElementById('guestSection');
-      const usernameDisplay = document.getElementById('usernameDisplay');
-      const userCoins = document.getElementById('userCoins');
-      const logoutButton = document.getElementById('logoutButton');
-      const dashboard = document.getElementById('dashboard');
-      const welcomeScreen = document.getElementById('welcomeScreen');
-      const shop = document.getElementById('shop');
-      const shopButton = document.getElementById('shopButton');
-      const closeShop = document.getElementById('closeShop');
-      const playGameButton = document.getElementById('playGameButton');
-      const gameModal = document.getElementById('gameModal');
-      const closeGameModal = document.getElementById('closeGameModal');
-      const startGame = document.getElementById('startGame');
-      const mouse = document.getElementById('mouse');
-      const gameTime = document.getElementById('gameTime');
-      const gameScore = document.getElementById('gameScore');
+      const authModal = document.getElementById("authModal");
+      const authModalTitle = document.getElementById("authModalTitle");
+      const loginForm = document.getElementById("loginForm");
+      const registerForm = document.getElementById("registerForm");
+      const toggleAuthForm = document.getElementById("toggleAuthForm");
+      const closeAuthModal = document.getElementById("closeAuthModal");
+      const loginButton = document.getElementById("loginButton");
+      const welcomeLoginButton = document.getElementById("welcomeLoginButton");
+      const userSection = document.getElementById("userSection");
+      const guestSection = document.getElementById("guestSection");
+      const usernameDisplay = document.getElementById("usernameDisplay");
+      const userCoins = document.getElementById("userCoins");
+      const logoutButton = document.getElementById("logoutButton");
+      const dashboard = document.getElementById("dashboard");
+      const welcomeScreen = document.getElementById("welcomeScreen");
+      const shop = document.getElementById("shop");
+      const shopButton = document.getElementById("shopButton");
+      const closeShop = document.getElementById("closeShop");
+      const playGameButton = document.getElementById("playGameButton");
+      const gameModal = document.getElementById("gameModal");
+      const closeGameModal = document.getElementById("closeGameModal");
+      const startGame = document.getElementById("startGame");
+      const mouse = document.getElementById("mouse");
+      const gameTime = document.getElementById("gameTime");
+      const gameScore = document.getElementById("gameScore");
 
       // Cat elements
-      const catName = document.getElementById('catName');
-      const catStatus = document.getElementById('catStatus');
-      const catImage = document.getElementById('catImage');
-      const catMood = document.getElementById('catMood');
-      const hungerBar = document.getElementById('hungerBar');
-      const hungerValue = document.getElementById('hungerValue');
-      const happinessBar = document.getElementById('happinessBar');
-      const happinessValue = document.getElementById('happinessValue');
-      const energyBar = document.getElementById('energyBar');
-      const energyValue = document.getElementById('energyValue');
-      const inventoryItems = document.getElementById('inventoryItems');
-      const activityLog = document.getElementById('activityLog');
+      const catName = document.getElementById("catName");
+      const catStatus = document.getElementById("catStatus");
+      const catImage = document.getElementById("catImage");
+      const catMood = document.getElementById("catMood");
+      const hungerBar = document.getElementById("hungerBar");
+      const hungerValue = document.getElementById("hungerValue");
+      const happinessBar = document.getElementById("happinessBar");
+      const happinessValue = document.getElementById("happinessValue");
+      const energyBar = document.getElementById("energyBar");
+      const energyValue = document.getElementById("energyValue");
+      const inventoryItems = document.getElementById("inventoryItems");
+      const activityLog = document.getElementById("activityLog");
 
       // Game variables
       let gameInterval;
@@ -864,7 +862,7 @@
             gameState.cat.hunger = Math.min(100, gameState.cat.hunger + 1);
             gameState.cat.happiness = Math.max(
               0,
-              gameState.cat.happiness - 0.5,
+              gameState.cat.happiness - 0.5
             );
             gameState.cat.energy = Math.max(0, gameState.cat.energy - 0.5);
 
@@ -878,92 +876,92 @@
       // Set up event listeners
       function setupEventListeners() {
         // Auth modal
-        loginButton.addEventListener('click', () => showAuthModal('login'));
-        welcomeLoginButton.addEventListener('click', () =>
-          showAuthModal('login'),
+        loginButton.addEventListener("click", () => showAuthModal("login"));
+        welcomeLoginButton.addEventListener("click", () =>
+          showAuthModal("login")
         );
-        closeAuthModal.addEventListener('click', hideAuthModal);
-        toggleAuthForm.addEventListener('click', toggleAuthForms);
+        closeAuthModal.addEventListener("click", hideAuthModal);
+        toggleAuthForm.addEventListener("click", toggleAuthForms);
 
         // Login/register forms
-        loginForm.addEventListener('submit', handleLogin);
-        registerForm.addEventListener('submit', handleRegister);
+        loginForm.addEventListener("submit", handleLogin);
+        registerForm.addEventListener("submit", handleRegister);
 
         // User actions
-        logoutButton.addEventListener('click', handleLogout);
+        logoutButton.addEventListener("click", handleLogout);
 
         // Shop
-        shopButton.addEventListener('click', showShop);
-        closeShop.addEventListener('click', hideShop);
+        shopButton.addEventListener("click", showShop);
+        closeShop.addEventListener("click", hideShop);
 
         // Cat actions
-        document.querySelectorAll('.cat-action').forEach((button) => {
-          button.addEventListener('click', function () {
-            const action = this.getAttribute('data-action');
+        document.querySelectorAll(".cat-action").forEach((button) => {
+          button.addEventListener("click", function () {
+            const action = this.getAttribute("data-action");
             handleCatAction(action);
           });
         });
 
         // Inventory items
-        document.querySelectorAll('.inventory-item').forEach((item) => {
-          item.addEventListener('click', function () {
-            const itemType = this.getAttribute('data-item');
+        document.querySelectorAll(".inventory-item").forEach((item) => {
+          item.addEventListener("click", function () {
+            const itemType = this.getAttribute("data-item");
             useInventoryItem(itemType);
           });
         });
 
         // Game
-        playGameButton.addEventListener('click', showGameModal);
-        closeGameModal.addEventListener('click', hideGameModal);
-        startGame.addEventListener('click', startMiniGame);
-        mouse.addEventListener('click', catchMouse);
+        playGameButton.addEventListener("click", showGameModal);
+        closeGameModal.addEventListener("click", hideGameModal);
+        startGame.addEventListener("click", startMiniGame);
+        mouse.addEventListener("click", catchMouse);
       }
 
       // Show auth modal
       function showAuthModal(formType) {
-        authModal.classList.remove('hidden');
-        if (formType === 'login') {
-          loginForm.classList.remove('hidden');
-          registerForm.classList.add('hidden');
-          authModalTitle.textContent = 'Login';
+        authModal.classList.remove("hidden");
+        if (formType === "login") {
+          loginForm.classList.remove("hidden");
+          registerForm.classList.add("hidden");
+          authModalTitle.textContent = "Login";
           toggleAuthForm.textContent = "Don't have an account? Register here";
         } else {
-          loginForm.classList.add('hidden');
-          registerForm.classList.remove('hidden');
-          authModalTitle.textContent = 'Register';
-          toggleAuthForm.textContent = 'Already have an account? Login here';
+          loginForm.classList.add("hidden");
+          registerForm.classList.remove("hidden");
+          authModalTitle.textContent = "Register";
+          toggleAuthForm.textContent = "Already have an account? Login here";
         }
       }
 
       // Hide auth modal
       function hideAuthModal() {
-        authModal.classList.add('hidden');
+        authModal.classList.add("hidden");
       }
 
       // Toggle between login and register forms
       function toggleAuthForms() {
-        if (loginForm.classList.contains('hidden')) {
-          loginForm.classList.remove('hidden');
-          registerForm.classList.add('hidden');
-          authModalTitle.textContent = 'Login';
+        if (loginForm.classList.contains("hidden")) {
+          loginForm.classList.remove("hidden");
+          registerForm.classList.add("hidden");
+          authModalTitle.textContent = "Login";
           toggleAuthForm.textContent = "Don't have an account? Register here";
         } else {
-          loginForm.classList.add('hidden');
-          registerForm.classList.remove('hidden');
-          authModalTitle.textContent = 'Register';
-          toggleAuthForm.textContent = 'Already have an account? Login here';
+          loginForm.classList.add("hidden");
+          registerForm.classList.remove("hidden");
+          authModalTitle.textContent = "Register";
+          toggleAuthForm.textContent = "Already have an account? Login here";
         }
       }
 
       // Handle login
       function handleLogin(e) {
         e.preventDefault();
-        const username = document.getElementById('loginUsername').value;
-        const password = document.getElementById('loginPassword').value;
+        const username = document.getElementById("loginUsername").value;
+        const password = document.getElementById("loginPassword").value;
 
         // Simple validation
         if (!username || !password) {
-          alert('Please enter both username and password');
+          alert("Please enter both username and password");
           return;
         }
 
@@ -980,21 +978,21 @@
       // Handle register
       function handleRegister(e) {
         e.preventDefault();
-        const username = document.getElementById('registerUsername').value;
-        const email = document.getElementById('registerEmail').value;
-        const password = document.getElementById('registerPassword').value;
+        const username = document.getElementById("registerUsername").value;
+        const email = document.getElementById("registerEmail").value;
+        const password = document.getElementById("registerPassword").value;
         const confirmPassword = document.getElementById(
-          'registerConfirmPassword',
+          "registerConfirmPassword"
         ).value;
 
         // Simple validation
         if (!username || !email || !password || !confirmPassword) {
-          alert('Please fill in all fields');
+          alert("Please fill in all fields");
           return;
         }
 
         if (password !== confirmPassword) {
-          alert('Passwords do not match');
+          alert("Passwords do not match");
           return;
         }
 
@@ -1019,10 +1017,10 @@
       function updateUI() {
         if (gameState.loggedIn) {
           // Show user section and dashboard
-          userSection.classList.remove('hidden');
-          guestSection.classList.add('hidden');
-          dashboard.classList.remove('hidden');
-          welcomeScreen.classList.add('hidden');
+          userSection.classList.remove("hidden");
+          guestSection.classList.add("hidden");
+          dashboard.classList.remove("hidden");
+          welcomeScreen.classList.add("hidden");
 
           // Update user info
           usernameDisplay.textContent = gameState.currentUser;
@@ -1047,11 +1045,11 @@
           updateActivityLog();
         } else {
           // Show guest section and welcome screen
-          userSection.classList.add('hidden');
-          guestSection.classList.remove('hidden');
-          dashboard.classList.add('hidden');
-          welcomeScreen.classList.remove('hidden');
-          shop.classList.add('hidden');
+          userSection.classList.add("hidden");
+          guestSection.classList.remove("hidden");
+          dashboard.classList.add("hidden");
+          welcomeScreen.classList.remove("hidden");
+          shop.classList.add("hidden");
         }
       }
 
@@ -1061,25 +1059,25 @@
         let mood, status, moodIcon;
 
         if (cat.hunger > 80) {
-          mood = 'hungry';
-          status = 'Very hungry and cranky!';
-          moodIcon = 'fa-frown';
+          mood = "hungry";
+          status = "Very hungry and cranky!";
+          moodIcon = "fa-frown";
         } else if (cat.happiness < 30) {
-          mood = 'sad';
-          status = 'Feeling sad and lonely...';
-          moodIcon = 'fa-sad-tear';
+          mood = "sad";
+          status = "Feeling sad and lonely...";
+          moodIcon = "fa-sad-tear";
         } else if (cat.energy < 20) {
-          mood = 'tired';
-          status = 'Exhausted and needs rest';
-          moodIcon = 'fa-tired';
+          mood = "tired";
+          status = "Exhausted and needs rest";
+          moodIcon = "fa-tired";
         } else if (cat.happiness > 70 && cat.hunger < 30 && cat.energy > 50) {
-          mood = 'happy';
-          status = 'Happy and playful!';
-          moodIcon = 'fa-smile-beam';
+          mood = "happy";
+          status = "Happy and playful!";
+          moodIcon = "fa-smile-beam";
         } else {
-          mood = 'content';
-          status = 'Content and relaxed';
-          moodIcon = 'fa-smile';
+          mood = "content";
+          status = "Content and relaxed";
+          moodIcon = "fa-smile";
         }
 
         cat.mood = mood;
@@ -1087,27 +1085,31 @@
         catMood.innerHTML = `<i class="fas ${moodIcon} text-white"></i>`;
 
         // Change cat image animation based on mood
-        catImage.className = `w-40 h-40 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden ${mood === 'happy' ? 'cat-bounce' : ''}`;
+        catImage.className = `w-40 h-40 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden ${
+          mood === "happy" ? "cat-bounce" : ""
+        }`;
       }
 
       // Update inventory display
       function updateInventory() {
-        inventoryItems.innerHTML = '';
+        inventoryItems.innerHTML = "";
 
         for (const [item, quantity] of Object.entries(gameState.inventory)) {
           if (quantity > 0) {
             const itemInfo = shopItems[item] || {
               name: item,
-              icon: 'fa-question',
+              icon: "fa-question",
             };
-            const itemElement = document.createElement('div');
-            itemElement.className = `inventory-item bg-gray-100 p-3 rounded-md flex items-center space-x-2 cursor-pointer ${quantity > 0 ? 'hover:bg-gray-200' : 'opacity-50'}`;
-            itemElement.setAttribute('data-item', item);
+            const itemElement = document.createElement("div");
+            itemElement.className = `inventory-item bg-gray-100 p-3 rounded-md flex items-center space-x-2 cursor-pointer ${
+              quantity > 0 ? "hover:bg-gray-200" : "opacity-50"
+            }`;
+            itemElement.setAttribute("data-item", item);
             itemElement.innerHTML = `
                         <i class="fas ${itemInfo.icon} text-blue-500"></i>
                         <span>${itemInfo.name} <span class="text-sm text-gray-500">(${quantity})</span></span>
                     `;
-            itemElement.addEventListener('click', () => useInventoryItem(item));
+            itemElement.addEventListener("click", () => useInventoryItem(item));
             inventoryItems.appendChild(itemElement);
           }
         }
@@ -1115,11 +1117,11 @@
 
       // Update activity log
       function updateActivityLog() {
-        activityLog.innerHTML = '';
+        activityLog.innerHTML = "";
 
         gameState.activityLog.slice(0, 10).forEach((log) => {
-          const logElement = document.createElement('div');
-          logElement.className = 'text-sm p-2 bg-gray-50 rounded';
+          const logElement = document.createElement("div");
+          logElement.className = "text-sm p-2 bg-gray-50 rounded";
           logElement.textContent = log;
           activityLog.appendChild(logElement);
         });
@@ -1127,10 +1129,10 @@
 
       // Handle cat actions (feed, play, pet, sleep)
       function handleCatAction(action) {
-        let message = '';
+        let message = "";
 
         switch (action) {
-          case 'feed':
+          case "feed":
             if (gameState.inventory.food > 0) {
               gameState.cat.hunger = Math.max(0, gameState.cat.hunger - 15);
               gameState.inventory.food--;
@@ -1139,11 +1141,11 @@
               message = `You don't have any food to feed ${gameState.cat.name}!`;
             }
             break;
-          case 'play':
+          case "play":
             if (gameState.inventory.toy > 0) {
               gameState.cat.happiness = Math.min(
                 100,
-                gameState.cat.happiness + 15,
+                gameState.cat.happiness + 15
               );
               gameState.cat.energy = Math.max(0, gameState.cat.energy - 10);
               gameState.inventory.toy--;
@@ -1152,14 +1154,14 @@
               message = `You don't have any toys to play with ${gameState.cat.name}!`;
             }
             break;
-          case 'pet':
+          case "pet":
             gameState.cat.happiness = Math.min(
               100,
-              gameState.cat.happiness + 5,
+              gameState.cat.happiness + 5
             );
             message = `You petted ${gameState.cat.name}`;
             break;
-          case 'sleep':
+          case "sleep":
             gameState.cat.energy = Math.min(100, gameState.cat.energy + 30);
             message = `${gameState.cat.name} took a nap`;
             break;
@@ -1167,8 +1169,8 @@
 
         // Add to activity log
         const timestamp = new Date().toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
+          hour: "2-digit",
+          minute: "2-digit",
         });
         gameState.activityLog.unshift(`[${timestamp}] ${message}`);
 
@@ -1185,19 +1187,19 @@
           if (item.effect.hunger) {
             gameState.cat.hunger = Math.max(
               0,
-              gameState.cat.hunger + item.effect.hunger,
+              gameState.cat.hunger + item.effect.hunger
             );
           }
           if (item.effect.happiness) {
             gameState.cat.happiness = Math.min(
               100,
-              gameState.cat.happiness + item.effect.happiness,
+              gameState.cat.happiness + item.effect.happiness
             );
           }
           if (item.effect.energy) {
             gameState.cat.energy = Math.min(
               100,
-              gameState.cat.energy + item.effect.energy,
+              gameState.cat.energy + item.effect.energy
             );
           }
 
@@ -1206,11 +1208,11 @@
 
           // Add to activity log
           const timestamp = new Date().toLocaleTimeString([], {
-            hour: '2-digit',
-            minute: '2-digit',
+            hour: "2-digit",
+            minute: "2-digit",
           });
           gameState.activityLog.unshift(
-            `[${timestamp}] You used ${item.name} on ${gameState.cat.name}`,
+            `[${timestamp}] You used ${item.name} on ${gameState.cat.name}`
           );
 
           // Update UI
@@ -1220,18 +1222,18 @@
 
       // Show shop
       function showShop() {
-        shop.classList.remove('hidden');
-        dashboard.classList.add('hidden');
+        shop.classList.remove("hidden");
+        dashboard.classList.add("hidden");
 
         // Set up shop item event listeners
-        document.querySelectorAll('.buy-item').forEach((button) => {
-          button.addEventListener('click', function (e) {
+        document.querySelectorAll(".buy-item").forEach((button) => {
+          button.addEventListener("click", function (e) {
             e.preventDefault();
             e.stopPropagation();
 
-            const itemElement = this.closest('.shop-item');
-            const itemType = itemElement.getAttribute('data-item');
-            const price = parseInt(itemElement.getAttribute('data-price'));
+            const itemElement = this.closest(".shop-item");
+            const itemType = itemElement.getAttribute("data-item");
+            const price = parseInt(itemElement.getAttribute("data-price"));
 
             buyItem(itemType, price);
           });
@@ -1240,8 +1242,8 @@
 
       // Hide shop
       function hideShop() {
-        shop.classList.add('hidden');
-        dashboard.classList.remove('hidden');
+        shop.classList.add("hidden");
+        dashboard.classList.remove("hidden");
       }
 
       // Buy item from shop
@@ -1258,11 +1260,11 @@
           // Add to activity log
           const itemName = shopItems[itemType].name;
           const timestamp = new Date().toLocaleTimeString([], {
-            hour: '2-digit',
-            minute: '2-digit',
+            hour: "2-digit",
+            minute: "2-digit",
           });
           gameState.activityLog.unshift(
-            `[${timestamp}] You bought ${itemName} for ${price} coins`,
+            `[${timestamp}] You bought ${itemName} for ${price} coins`
           );
 
           // Update UI
@@ -1277,12 +1279,12 @@
 
       // Show game modal
       function showGameModal() {
-        gameModal.classList.remove('hidden');
+        gameModal.classList.remove("hidden");
       }
 
       // Hide game modal
       function hideGameModal() {
-        gameModal.classList.add('hidden');
+        gameModal.classList.add("hidden");
         resetGame();
       }
 
@@ -1295,7 +1297,7 @@
         gameScore.textContent = score;
         gameTime.textContent = timeLeft;
 
-        startGame.textContent = 'Playing...';
+        startGame.textContent = "Playing...";
         startGame.disabled = true;
 
         // Start timer
@@ -1345,7 +1347,7 @@
         clearInterval(gameTimer);
         clearInterval(gameInterval);
 
-        startGame.textContent = 'Play Again';
+        startGame.textContent = "Play Again";
         startGame.disabled = false;
 
         // Calculate coins earned (1 coin per 2 points)
@@ -1361,11 +1363,11 @@
 
         // Add to activity log
         const timestamp = new Date().toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
+          hour: "2-digit",
+          minute: "2-digit",
         });
         gameState.activityLog.unshift(
-          `[${timestamp}] You played Catch the Mouse and earned ${coinsEarned} coins (Score: ${score})`,
+          `[${timestamp}] You played Catch the Mouse and earned ${coinsEarned} coins (Score: ${score})`
         );
 
         // Update UI
@@ -1373,7 +1375,7 @@
 
         // Show result
         alert(
-          `Game Over! You scored ${score} points and earned ${coinsEarned} coins!`,
+          `Game Over! You scored ${score} points and earned ${coinsEarned} coins!`
         );
       }
 
@@ -1389,7 +1391,7 @@
         gameScore.textContent = score;
         gameTime.textContent = timeLeft;
 
-        startGame.textContent = 'Start Game';
+        startGame.textContent = "Start Game";
         startGame.disabled = false;
       }
 
